@@ -1,31 +1,30 @@
 import './App.scss';
 import Navigation from './components/Navigation';
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { apiResponse: '' };
-	}
-
-	callAPI() {
-		fetch('http://localhost:5000/testAPI')
-			.then((res) => res.text())
-			.then((res) => this.setState({ apiResponse: res }))
-			.catch((err) => err);
-	}
-
-	componentDidMount() {
-		this.callAPI();
-	}
-
-	render() {
-		return (
-			<div className='App'>
-				<Navigation />
-			</div>
-		);
-	}
+if (localStorage.token) {
+	setAuthToken(localStorage.token);
 }
+
+const App = ({ auth }) => {
+	useEffect(() => {
+		store.dispatch(loadUser());
+		store.dispatch(loadTasks());
+	}, []);
+
+	return (
+		<Router>
+			<div className='App'>
+				<Switch>
+					<Route exact path='/'>
+						<Navigation />
+					</Route>
+					{/* <Route exact path="/cards" component={ () => <Cards />} /> */}
+				</Switch>
+			</div>
+		</Router>
+	);
+};
 
 export default App;
